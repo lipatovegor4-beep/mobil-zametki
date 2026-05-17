@@ -1,13 +1,40 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, SafeAreaView, Keyboard } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  TextInput, 
+  TouchableOpacity, 
+  FlatList, 
+  SafeAreaView, 
+  Keyboard 
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
 
-  // Функция добавления новой заметки в локальное состояние приложения
-  const addNote = () => {
+  // Загружаем заметки из памяти устройства при старте приложения
+  useEffect(() => {
+    loadNotes();
+  }, []);
+
+  // Функция чтения из AsyncStorage
+  const loadNotes = async () => {
+    try {
+      const savedNotes = await AsyncStorage.getItem('@notes_key');
+      if (savedNotes !== null) {
+        setNotes(JSON.parse(savedNotes));
+      }
+    } catch (error) {
+      console.error("Ошибка при загрузке заметок:", error);
+    }
+  };
+
+  // Функция добавления новой заметки с сохранением
+  const addNote = async () => {
     if (!title.trim() || !text.trim()) {
       alert("Пожалуйста, заполните заголовок и текст заметки!");
       return;
@@ -19,18 +46,33 @@ export default function App() {
       text: text,
     };
 
-    setNotes([newNote, ...notes]);
+    const updatedNotes = [newNote, ...notes];
+    setNotes(updatedNotes);
+    
     setTitle('');
     setText('');
     Keyboard.dismiss();
+
+    // Сохраняем обновленный массив в память устройства
+    try {
+      await AsyncStorage.setItem('@notes_key', JSON.stringify(updatedNotes));
+    } catch (error) {
+      console.error("Ошибка при сохранении заметки:", error);
+    }
   };
 
-  // Функция удаления заметки из локального состояния
-  const deleteNote = (id) => {
-    setNotes(notes.filter(note => note.id !== id));
+  // Функция удаления заметки с обновлением памяти
+  const deleteNote = async (id) => {
+    const updatedNotes = notes.filter(note => note.id !== id);
+    setNotes(updatedNotes);
+
+    try {
+      await AsyncStorage.setItem('@notes_key', JSON.stringify(updatedNotes));
+    } catch (error) {
+      console.error("Ошибка при удалении записи:", error);
+    }
   };
 
-  // Макет одной карточки заметки
   const renderNoteItem = ({ item }) => (
     <View style={styles.noteCard}>
       <View style={styles.noteContent}>
@@ -55,7 +97,6 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      {/* Вывод списка заметок */}
       <FlatList
         data={notes}
         renderItem={renderNoteItem}
