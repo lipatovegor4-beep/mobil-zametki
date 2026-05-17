@@ -1,8 +1,3 @@
-// =======================================================
-// Практическое занятие №6: «Мобильные заметки»
-// Студент: Липатов Егор
-// Группа: ИУК2-42Б
-// =======================================================
 
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
@@ -39,11 +34,47 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f5f5f5', paddingTop: 40 },
-  headerTitle: { fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginVertical: 15, color: '#333' },
-  formContainer: { backgroundColor: '#fff', padding: 15, marginHorizontal: 15, borderRadius: 10, elevation: 3, marginBottom: 15 },
-  input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 6, padding: 10, marginBottom: 10, fontSize: 16 },
-  textArea: { height: 80, textAlignVertical: 'top' },
-  addButton: { backgroundColor: '#007AFF', padding: 12, borderRadius: 6, alignItems: 'center' },
-  addButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  container: { 
+    flex: 1, 
+    backgroundColor: '#f5f5f5', 
+    paddingTop: 40 
+  },
+  headerTitle: { 
+    fontSize: 24, 
+    fontWeight: 'bold', 
+    textAlign: 'center', 
+    marginVertical: 15, 
+    color: '#333' 
+  },
+  formContainer: { 
+    backgroundColor: '#fff', 
+    padding: 15, 
+    marginHorizontal: 15, 
+    borderRadius: 10, 
+    elevation: 3, 
+    marginBottom: 15 
+  },
+  input: { 
+    borderWidth: 1, 
+    borderColor: '#ddd', 
+    borderRadius: 6, 
+    padding: 10, 
+    marginBottom: 10, 
+    fontSize: 16 
+  },
+  textArea: { 
+    height: 80, 
+    textAlignVertical: 'top' 
+  },
+  addButton: { 
+    backgroundColor: '#007AFF', 
+    padding: 12, 
+    borderRadius: 6, 
+    alignItems: 'center' 
+  },
+  addButtonText: { 
+    color: '#fff', 
+    fontSize: 16, 
+    fontWeight: '600' 
+  }
 });
